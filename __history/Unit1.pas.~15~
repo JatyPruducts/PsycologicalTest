@@ -1,0 +1,55 @@
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons;
+
+type
+  TMainForm = class(TForm)
+    Label1: TLabel;
+    Edit1: TEdit;
+    Label2: TLabel;
+    Edit2: TEdit;
+    Edit3: TEdit;
+    Label3: TLabel;
+    Edit4: TEdit;
+    Label4: TLabel;
+    Button1: TButton;
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  MainForm: TMainForm;
+  counter: integer;
+
+implementation
+
+{$R *.dfm}
+
+uses Unit2, Unit4;
+
+
+procedure TMainForm.Button1Click(Sender: TObject);
+begin
+  if((Edit1.Text <> '') and (Edit2.Text <> '') and (pos('@',Edit4.Text) <> 0)) then
+  begin
+    Form2.Visible := True;
+    Unit4.name := Edit1.Text;
+    Unit4.secName := Edit2.Text;
+    Unit4.dadName := Edit3.Text;
+    Unit4.mail := Edit4.Text;
+    MainForm.Visible := False;
+  end
+  else
+  begin
+   ShowMessage('Пожалуйста, заполните все обязательные поля!');
+  end;
+end;
+
+end.

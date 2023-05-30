@@ -1,0 +1,433 @@
+unit PsychologicalTest;
+
+interface
+
+type
+  TQuestion = record
+    Prompt, Module: string;
+    Choices: array[0..5] of string;
+    CorrectAnswer: Integer;
+  end;
+
+  TPsychologicalTest = class
+  private
+    FQuestions: array[0..118] of TQuestion;
+  public
+    FCurrentQuestionIndex: Integer;
+    constructor Create;
+    function GetCurrentQuestion: TQuestion;
+    procedure SelectAnswer(Answer: Integer);
+    function IsLastQuestion: Boolean;
+    procedure NextQuestion;
+  end;
+
+implementation
+
+constructor TPsychologicalTest.Create;
+begin
+  FQuestions[0].Module := 'Модуль 1. Ознакомление';
+  FQuestions[0].Prompt := '1. Продолжите предложение: начальные буквы имени и отчества называются ...?';
+  FQuestions[0].Choices[0] := 'вензель';
+  FQuestions[0].Choices[1] := 'инициалы';
+  FQuestions[0].Choices[2] := 'автограф';
+  FQuestions[0].Choices[3] := 'индекс';
+  FQuestions[0].Choices[4] := 'анаграмма';
+  FQuestions[0].CorrectAnswer := 1;
+
+
+  FQuestions[1].Prompt := '2. Продолжите предложение: гуманный - это ...?';
+  FQuestions[1].Choices[0] := 'общественный';
+  FQuestions[1].Choices[1] := 'человечный';
+  FQuestions[1].Choices[2] := 'профессиональный';
+  FQuestions[1].Choices[3] := 'агрессивный';
+  FQuestions[1].Choices[4] := 'пренебрежительный';
+  FQuestions[1].CorrectAnswer := 1;
+
+  FQuestions[2].Prompt := '3. Продолжите предложение: система взглядов на природу и общество есть ...?';
+  FQuestions[2].Choices[0] := 'мечта';
+  FQuestions[2].Choices[1] := 'оценка';
+  FQuestions[2].Choices[2] := 'мировоззрение';
+  FQuestions[2].Choices[3] := 'кругозор';
+  FQuestions[2].Choices[4] := 'иллюзия';
+  FQuestions[2].CorrectAnswer := 1;
+
+  FQuestions[3].Prompt := '4. Продолжите предложение: одинаковыми по смыслу являются слова "демократия" и ...? ';
+  FQuestions[3].Choices[0] := 'анархия';
+  FQuestions[3].Choices[1] := 'абсолютизм';
+  FQuestions[3].Choices[2] := 'народовластие';
+  FQuestions[3].Choices[3] := 'династия';
+  FQuestions[3].Choices[4] := 'классы';
+  FQuestions[3].CorrectAnswer := 1;
+
+  FQuestions[4].Prompt := '5. Продолжите предложение: наука о выведении лучших пород животных и сортов растений называется ...?';
+  FQuestions[4].Choices[0] := 'бионика';
+  FQuestions[4].Choices[1] := 'химия';
+  FQuestions[4].Choices[2] := 'селекция';
+  FQuestions[4].Choices[3] := 'ботаника';
+  FQuestions[4].Choices[4] := 'физиология';
+  FQuestions[4].CorrectAnswer := 1;
+
+  FQuestions[5].Prompt := '6. Продолжите предложение: краткая запись, сжатое изложение содержания книги, лекции, доклада -это ...?';
+  FQuestions[5].Choices[0] := 'абзац';
+  FQuestions[5].Choices[1] := 'цитата';
+  FQuestions[5].Choices[2] := 'рубрика';
+  FQuestions[5].Choices[3] := 'отрывок';
+  FQuestions[5].Choices[4] := 'конспект';
+  FQuestions[5].CorrectAnswer := 1;
+
+  FQuestions[6].Prompt := '7. Продолжите предложение: начитанность, глубокие и широкие познания - это ...?';
+  FQuestions[6].Choices[0] := 'интеллигентность';
+  FQuestions[6].Choices[1] := 'опытность';
+  FQuestions[6].Choices[2] := 'эрудиция';
+  FQuestions[6].Choices[3] := 'талант';
+  FQuestions[6].Choices[4] := 'самомнение';
+  FQuestions[6].CorrectAnswer := 1;
+
+  FQuestions[7].Prompt := '8. Продолжите предложение: отсутствие интереса и живого активного участия к окружающему - это ...?';
+  FQuestions[7].Choices[0] := 'рациональность';
+  FQuestions[7].Choices[1] := 'пассивность';
+  FQuestions[7].Choices[2] := 'чуткость';
+  FQuestions[7].Choices[3] := 'противоречивость';
+  FQuestions[7].Choices[4] := 'черствость';
+  FQuestions[7].CorrectAnswer := 1;
+
+  FQuestions[8].Prompt := '9. Продолжите предложение: свод законов, относящихся к какой-либо области человеческой жизни и деятельности называется ...?';
+  FQuestions[8].Choices[0] := 'революцией';
+  FQuestions[8].Choices[1] := 'постановлением';
+  FQuestions[8].Choices[2] := 'традицией';
+  FQuestions[8].Choices[3] := 'кодексом';
+  FQuestions[8].Choices[4] := 'проектом';
+  FQuestions[8].CorrectAnswer := 1;
+
+  FQuestions[9].Prompt := '10. Продолжите предложение: противоположностью понятия "лицемерный" будет ...?';
+  FQuestions[9].Choices[0] := 'искренний';
+  FQuestions[9].Choices[1] := 'противоречивый';
+  FQuestions[9].Choices[2] := 'фальшивый';
+  FQuestions[9].Choices[3] := 'вежливый';
+  FQuestions[9].Choices[4] := 'решительный';
+  FQuestions[9].CorrectAnswer := 1;
+
+  FQuestions[10].Prompt := '11. Продолжите предложение: если спор заканчивается взаимными уступками, тогда говорят о ...?';
+  FQuestions[10].Choices[0] := 'компромиссе';
+  FQuestions[10].Choices[1] := 'общении';
+  FQuestions[10].Choices[2] := 'объединении';
+  FQuestions[10].Choices[3] := 'переговорах';
+  FQuestions[10].Choices[4] := 'противоречии';
+  FQuestions[10].CorrectAnswer := 1;
+
+  FQuestions[11].Prompt := '12. Продолжите предложение: этика - это учение о ...?';
+  FQuestions[11].Choices[0] := 'психике';
+  FQuestions[11].Choices[1] := 'морали';
+  FQuestions[11].Choices[2] := 'природе';
+  FQuestions[11].Choices[3] := 'обществе';
+  FQuestions[11].Choices[4] := 'искусстве';
+  FQuestions[11].CorrectAnswer := 1;
+
+  FQuestions[12].Prompt := '13. Продолжите предложение: противоположностью понятия "идентичный" будет ...?';
+  FQuestions[12].Choices[0] := 'тождественный';
+  FQuestions[12].Choices[1] := 'единственный';
+  FQuestions[12].Choices[2] := 'внушительный';
+  FQuestions[12].Choices[3] := 'различный';
+  FQuestions[12].Choices[4] := 'изолированный';
+  FQuestions[12].CorrectAnswer := 1;
+
+  FQuestions[13].Prompt := '14. Продолжите предложение: освобождение от зависимости, предрассудков, уравнение в правах -это ...?';
+  FQuestions[13].Choices[0] := 'закон';
+  FQuestions[13].Choices[1] := 'эмиграция';
+  FQuestions[13].Choices[2] := 'воззрение';
+  FQuestions[13].Choices[3] := 'действие';
+  FQuestions[13].Choices[4] := 'эмансипация';
+  FQuestions[13].CorrectAnswer := 1;
+
+  FQuestions[14].Prompt := '15. Продолжите предложение: оппозиция - это ...?';
+  FQuestions[14].Choices[0] := 'противодействие';
+  FQuestions[14].Choices[1] := 'согласие';
+  FQuestions[14].Choices[2] := 'мнение';
+  FQuestions[14].Choices[3] := 'политика';
+  FQuestions[14].Choices[4] := 'решение';
+  FQuestions[14].CorrectAnswer := 1;
+
+  FQuestions[15].Prompt := '16. Продолжите предложение: цивилизация - это ...?';
+  FQuestions[15].Choices[0] := 'формация';
+  FQuestions[15].Choices[1] := 'древность';
+  FQuestions[15].Choices[2] := 'производство';
+  FQuestions[15].Choices[3] := 'культура';
+  FQuestions[15].Choices[4] := 'общение';
+  FQuestions[15].CorrectAnswer := 1;
+
+  FQuestions[16].Prompt := '17. Продолжите предложение: одинаковыми по смыслу являются слова "приоритет" и ...?';
+  FQuestions[16].Choices[0] := 'изобретение';
+  FQuestions[16].Choices[1] := 'идея';
+  FQuestions[16].Choices[2] := 'выбор';
+  FQuestions[16].Choices[3] := 'первенство';
+  FQuestions[16].Choices[4] := 'руководство';
+  FQuestions[16].CorrectAnswer := 1;
+
+  FQuestions[17].Prompt := '18. Продолжите предложение: коалиция - это ...?';
+  FQuestions[17].Choices[0] := 'конкуренция';
+  FQuestions[17].Choices[1] := 'политика';
+  FQuestions[17].Choices[2] := 'вражда';
+  FQuestions[17].Choices[3] := 'разрыв';
+  FQuestions[17].Choices[4] := 'объединение';
+  FQuestions[17].CorrectAnswer := 1;
+
+  FQuestions[18].Prompt := '19. Продолжите предложение: одинаковыми по смыслу являются слова "альтруизм" и ...?';
+  FQuestions[18].Choices[0] := 'человеколюбие';
+  FQuestions[18].Choices[1] := 'взаимоотношение';
+  FQuestions[18].Choices[2] := 'вежливость';
+  FQuestions[18].Choices[3] := 'эгоизм';
+  FQuestions[18].Choices[4] := 'нравственность';
+  FQuestions[18].CorrectAnswer := 1;
+
+  FQuestions[19].Prompt := '20. Продолжите предложение: человек, который скептически относится к прогрессу, является ...?';
+  FQuestions[19].Choices[0] := 'демократом';
+  FQuestions[19].Choices[1] := 'радикалом';
+  FQuestions[19].Choices[2] := 'консерватором';
+  FQuestions[19].Choices[3] := 'либералом';
+  FQuestions[19].Choices[4] := 'анархистом';
+  FQuestions[19].CorrectAnswer := 1;
+
+
+
+  FQuestions[20].Prompt := '1. Подберите синоним: прогрессивный - ';
+  FQuestions[20].Choices[0] := 'интеллектуальный';
+  FQuestions[20].Choices[1] := 'передовой';
+  FQuestions[20].Choices[2] := 'ловкий';
+  FQuestions[20].Choices[3] := 'отсталый';
+  FQuestions[20].Choices[4] := 'консервативный';
+  FQuestions[20].CorrectAnswer := 1;
+
+  FQuestions[21].Prompt := '2. Подберите синоним: аннулирование - ';
+  FQuestions[21].Choices[0] := 'подписание';
+  FQuestions[21].Choices[1] := 'отмена';
+  FQuestions[21].Choices[2] := 'сообщение';
+  FQuestions[21].Choices[3] := 'отсрочка';
+  FQuestions[21].Choices[4] := 'предписание';
+  FQuestions[21].CorrectAnswer := 1;
+
+  FQuestions[22].Prompt := '3. Подберите синоним: идеал - ';
+  FQuestions[22].Choices[0] := 'фантазия';
+  FQuestions[22].Choices[1] := 'будущее';
+  FQuestions[22].Choices[2] := 'мудрость';
+  FQuestions[22].Choices[3] := 'совершенство';
+  FQuestions[22].Choices[4] := 'глупость';
+  FQuestions[22].CorrectAnswer := 1;
+
+  FQuestions[23].Prompt := '4. Подберите синоним: аргумент - ';
+  FQuestions[23].Choices[0] := 'довод';
+  FQuestions[23].Choices[1] := 'согласие';
+  FQuestions[23].Choices[2] := 'спор';
+  FQuestions[23].Choices[3] := 'фраза';
+  FQuestions[23].Choices[4] := 'отказ';
+  FQuestions[23].CorrectAnswer := 1;
+
+  FQuestions[24].Prompt := '5. Подберите синоним: миф - ';
+  FQuestions[24].Choices[0] := 'древность';
+  FQuestions[24].Choices[1] := 'творчество';
+  FQuestions[24].Choices[2] := 'предание';
+  FQuestions[24].Choices[3] := 'наука';
+  FQuestions[24].Choices[4] := 'факт';
+  FQuestions[24].CorrectAnswer := 1;
+
+  FQuestions[25].Prompt := '6. Подберите синоним: аморальный - ';
+  FQuestions[25].Choices[0] := 'устойчивый';
+  FQuestions[25].Choices[1] := 'трудный';
+  FQuestions[25].Choices[2] := 'неприятный';
+  FQuestions[25].Choices[3] := 'безнравственный';
+  FQuestions[25].Choices[4] := 'функциональный';
+  FQuestions[25].CorrectAnswer := 1;
+
+  FQuestions[26].Prompt := '7. Подберите синоним: анализ - ';
+  FQuestions[26].Choices[0] := 'факты';
+  FQuestions[26].Choices[1] := 'разбор';
+  FQuestions[26].Choices[2] := 'критика';
+  FQuestions[26].Choices[3] := 'умение';
+  FQuestions[26].Choices[4] := 'синтез';
+  FQuestions[26].CorrectAnswer := 1;
+
+  FQuestions[27].Prompt := '8. Подберите синоним: эталон - ';
+  FQuestions[27].Choices[0] := 'копия';
+  FQuestions[27].Choices[1] := 'форма';
+  FQuestions[27].Choices[2] := 'основа';
+  FQuestions[27].Choices[3] := 'образец';
+  FQuestions[27].Choices[4] := 'брак';
+  FQuestions[27].CorrectAnswer := 1;
+
+  FQuestions[28].Prompt := '9. Подберите синоним: сферический - ';
+  FQuestions[28].Choices[0] := 'продолговатый';
+  FQuestions[28].Choices[1] := 'шаровидный';
+  FQuestions[28].Choices[2] := 'пустой';
+  FQuestions[28].Choices[3] := 'объемный';
+  FQuestions[28].Choices[4] := 'двумерный';
+  FQuestions[28].CorrectAnswer := 1;
+
+  FQuestions[29].Prompt := '10. Подберите синоним: социальный - ';
+  FQuestions[29].Choices[0] := 'принятый';
+  FQuestions[29].Choices[1] := 'свободный';
+  FQuestions[29].Choices[2] := 'запланированный';
+  FQuestions[29].Choices[3] := 'общественный';
+  FQuestions[29].Choices[4] := 'аморальный';
+  FQuestions[29].CorrectAnswer := 1;
+
+  FQuestions[30].Prompt := '11. Подберите синоним: гравитация - ';
+  FQuestions[30].Choices[0] := 'притяжение';
+  FQuestions[30].Choices[1] := 'отталкивание';
+  FQuestions[30].Choices[2] := 'невесомость';
+  FQuestions[30].Choices[3] := 'подъем';
+  FQuestions[30].Choices[4] := 'взлёт';
+  FQuestions[30].CorrectAnswer := 1;
+
+  FQuestions[31].Prompt := '12. Подберите синоним: сентиментальный - ';
+  FQuestions[31].Choices[0] := 'поэтический';
+  FQuestions[31].Choices[1] := 'чувствительный';
+  FQuestions[31].Choices[2] := 'радостный';
+  FQuestions[31].Choices[3] := 'странный';
+  FQuestions[31].Choices[4] := 'грустный';
+  FQuestions[31].CorrectAnswer := 1;
+
+  FQuestions[32].Prompt := '13. Подберите синоним: экспорт - ';
+  FQuestions[32].Choices[0] := 'продажа';
+  FQuestions[32].Choices[1] := 'товары';
+  FQuestions[32].Choices[2] := 'вывоз';
+  FQuestions[32].Choices[3] := 'торговля';
+  FQuestions[32].Choices[4] := 'покупка';
+  FQuestions[32].CorrectAnswer := 1;
+
+  FQuestions[33].Prompt := '14. Подберите синоним: эффективный - ';
+  FQuestions[33].Choices[0] := 'необходимый';
+  FQuestions[33].Choices[1] := 'действенный';
+  FQuestions[33].Choices[2] := 'решительный';
+  FQuestions[33].Choices[3] := 'особый';
+  FQuestions[33].Choices[4] := 'безрезультативный';
+  FQuestions[33].CorrectAnswer := 1;
+
+  FQuestions[34].Prompt := '15. Подберите синоним: мораль - ';
+  FQuestions[34].Choices[0] := 'этика';
+  FQuestions[34].Choices[1] := 'развитие';
+  FQuestions[34].Choices[2] := 'способности';
+  FQuestions[34].Choices[3] := 'право';
+  FQuestions[34].Choices[4] := 'закон';
+  FQuestions[34].CorrectAnswer := 1;
+
+  FQuestions[35].Prompt := '16. Подберите синоним: модифицировать - ';
+  FQuestions[35].Choices[0] := 'работать';
+  FQuestions[35].Choices[1] := 'наблюдать';
+  FQuestions[35].Choices[2] := 'изучать';
+  FQuestions[35].Choices[3] := 'видоизменять';
+  FQuestions[35].Choices[4] := 'делить';
+  FQuestions[35].CorrectAnswer := 1;
+
+  FQuestions[36].Prompt := '17. Подберите синоним: радикальный - ';
+  FQuestions[36].Choices[0] := 'коренной';
+  FQuestions[36].Choices[1] := 'ответный';
+  FQuestions[36].Choices[2] := 'последний';
+  FQuestions[36].Choices[3] := 'отсталый';
+  FQuestions[36].Choices[4] := 'постепенный';
+  FQuestions[36].CorrectAnswer := 1;
+
+  FQuestions[37].Prompt := '18. Подберите синоним: негативный - ';
+  FQuestions[37].Choices[0] := 'неудачный';
+  FQuestions[37].Choices[1] := 'ложный';
+  FQuestions[37].Choices[2] := 'отрицательный';
+  FQuestions[37].Choices[3] := 'неосторожный';
+  FQuestions[37].Choices[4] := 'добрый';
+  FQuestions[37].CorrectAnswer := 1;
+
+  FQuestions[38].Prompt := '19. Подберите синоним: субъективный - ';
+  FQuestions[38].Choices[0] := 'практический';
+  FQuestions[38].Choices[1] := 'общественный';
+  FQuestions[38].Choices[2] := 'личный';
+  FQuestions[38].Choices[3] := 'скрытый';
+  FQuestions[38].Choices[4] := 'независимый';
+  FQuestions[38].CorrectAnswer := 1;
+
+  FQuestions[39].Prompt := '20. Подберите синоним: аграрный - ';
+  FQuestions[39].Choices[0] := 'местный';
+  FQuestions[39].Choices[1] := 'хозяйственный';
+  FQuestions[39].Choices[2] := 'земельный';
+  FQuestions[39].Choices[3] := 'крестьянский';
+  FQuestions[39].Choices[4] := 'городской';
+  FQuestions[39].CorrectAnswer := 1;
+
+  FQuestions[40].Prompt := '1. Между третьим и одним из слов существует связь. Вам нужно выбрать его.  Глагол: спрягать = существительное: ?';
+  FQuestions[40].Choices[0] := 'изменять';
+  FQuestions[40].Choices[1] := 'образовывать';
+  FQuestions[40].Choices[2] := 'употреблять';
+  FQuestions[40].Choices[3] := 'склонять';
+  FQuestions[40].Choices[4] := 'писать';
+  FQuestions[40].CorrectAnswer := 1;
+
+  FQuestions[41].Prompt := '2. Между третьим и одним из слов существует связь. Вам нужно выбрать его.  Холодно: горячо = движение: ?';
+  FQuestions[41].Choices[0] := 'инерция';
+  FQuestions[41].Choices[1] := 'покой';
+  FQuestions[41].Choices[2] := 'молекула';
+  FQuestions[41].Choices[3] := 'взаимодействие';
+  FQuestions[41].Choices[4] := 'скорость';
+  FQuestions[41].CorrectAnswer := 1;
+
+  FQuestions[42].Prompt := '3. Между третьим и одним из слов существует связь. Вам нужно выбрать его.  Колумб: путешественник = землетрясение:?';
+  FQuestions[42].Choices[0] := 'первооткрыватель';
+  FQuestions[42].Choices[1] := 'образование гор';
+  FQuestions[42].Choices[2] := 'извержение';
+  FQuestions[42].Choices[3] := 'жертвы';
+  FQuestions[42].Choices[4] := 'природное явление';
+  FQuestions[42].CorrectAnswer := 1;
+
+  FQuestions[43].Prompt := '4. Между третьим и одним из слов существует связь. Вам нужно выбрать его.  Слагаемое: сумма = множители: ?';
+  FQuestions[43].Choices[0] := 'разность';
+  FQuestions[43].Choices[1] := 'делитель';
+  FQuestions[43].Choices[2] := 'произведение';
+  FQuestions[43].Choices[3] := 'умножение';
+  FQuestions[43].Choices[4] := 'число';
+  FQuestions[43].CorrectAnswer := 1;
+
+  FQuestions[44].Prompt := '5. Между третьим и одним из слов существует связь. Вам нужно выбрать его.  Рабовладельцы: буржуазия = рабы: ?';
+  FQuestions[44].Choices[0] := 'рабовладельческий строй';
+  FQuestions[44].Choices[1] := 'буржуазия';
+  FQuestions[44].Choices[2] := 'рабовладельцы';
+  FQuestions[44].Choices[3] := 'наемные рабочие';
+  FQuestions[44].Choices[4] := 'пленные';
+  FQuestions[44].CorrectAnswer := 1;
+
+  FQuestions[45].Prompt := '6. Между третьим и одним из слов существует связь. Вам нужно выбрать его.  Папоротник: спора = сосна: ?';
+  FQuestions[45].Choices[0] := 'шишка';
+  FQuestions[45].Choices[1] := 'иголка';
+  FQuestions[45].Choices[2] := 'растение';
+  FQuestions[45].Choices[3] := 'семя';
+  FQuestions[45].Choices[4] := 'ель';
+  FQuestions[45].CorrectAnswer := 1;
+
+  FQuestions[46].Prompt := '7. Между третьим и одним из слов существует связь. Вам нужно выбрать его.  Стихотворение: поэзия = рассказ: ?';
+  FQuestions[46].Choices[0] := 'книга';
+  FQuestions[46].Choices[1] := 'писатель';
+  FQuestions[46].Choices[2] := 'повесть';
+  FQuestions[46].Choices[3] := 'предложение';
+  FQuestions[46].Choices[4] := 'проза';
+  FQuestions[46].CorrectAnswer := 1;
+
+
+  FCurrentQuestionIndex := 0;
+end;
+
+function TPsychologicalTest.GetCurrentQuestion: TQuestion;
+begin
+  Result := FQuestions[FCurrentQuestionIndex];
+end;
+
+procedure TPsychologicalTest.SelectAnswer(Answer: Integer);
+begin
+  // Do nothing with the answer for now
+end;
+
+function TPsychologicalTest.IsLastQuestion: Boolean;
+begin
+  Result := FCurrentQuestionIndex = High(FQuestions);
+end;
+
+procedure TPsychologicalTest.NextQuestion;
+begin
+  if not IsLastQuestion then
+    Inc(FCurrentQuestionIndex);
+end;
+
+end.

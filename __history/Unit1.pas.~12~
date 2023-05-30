@@ -1,0 +1,78 @@
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons;
+
+type
+  TMainForm = class(TForm)
+    Label1: TLabel;
+    Edit1: TEdit;
+    Label2: TLabel;
+    Edit2: TEdit;
+    Edit3: TEdit;
+    Label3: TLabel;
+    Edit4: TEdit;
+    Label4: TLabel;
+    Button1: TButton;
+    procedure BitBtn1Click(Sender: TObject);
+    procedure Edit4Change(Sender: TObject);
+    procedure Edit1Change(Sender: TObject);
+    procedure Edit2Change(Sender: TObject);
+    procedure FormMouseActivate(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y, HitTest: Integer;
+      var MouseActivate: TMouseActivate);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  MainForm: TMainForm;
+  counter: integer;
+
+implementation
+
+{$R *.dfm}
+
+uses Unit2;
+
+
+
+procedure TMainForm.BitBtn1Click(Sender: TObject);
+begin
+Form2.Show;
+Unit1.MainForm.Visible := False;
+end;
+
+
+procedure TMainForm.Edit1Change(Sender: TObject);
+begin
+if Edit1.Text = '' then
+  counter := counter + 1;
+end;
+
+procedure TMainForm.Edit2Change(Sender: TObject);
+begin
+if Edit2.Text = '' then
+  counter := counter + 1;
+end;
+
+procedure TMainForm.Edit4Change(Sender: TObject);
+begin
+if pos('@',Edit4.Text) <> 0 then
+   counter := counter + 1;
+end;
+
+procedure TMainForm.FormMouseActivate(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y, HitTest: Integer;
+  var MouseActivate: TMouseActivate);
+begin
+if counter >= 3 then
+  Button1.Enabled := True;
+end;
+
+end.

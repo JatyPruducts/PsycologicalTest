@@ -1,0 +1,1211 @@
+unit PsychologicalTest;
+
+interface
+
+type
+  TQuestion = record
+    Prompt, Module, MainQuesion: string;
+    Choices: array[0..5] of string;
+    CorrectAnswer: Integer;
+  end;
+
+  TPsychologicalTest = class
+  private
+    FQuestions: array[0..84] of TQuestion;
+  public
+    FCurrentQuestionIndex: Integer;
+    constructor Create;
+    function GetCurrentQuestion: TQuestion;
+    function IsLastQuestion: Boolean;
+    procedure NextQuestion;
+  end;
+
+  TQuestion2 = record
+    Prompt, Module, MainQuesion, Dop: string;
+    CorrectAnswer2: array[0..2] of string;
+  end;
+
+  TPsychologicalTest2 = class
+  private
+    FQuestions2: array[0..33] of TQuestion2;
+  public
+    FCurrentQuestionIndex2: Integer;
+    constructor Create;
+    function GetCurrentQuestion: TQuestion2;
+    function IsLastQuestion: Boolean;
+    procedure NextQuestion;
+  end;
+ var
+  total_result : integer;
+
+implementation
+
+constructor TPsychologicalTest.Create;
+begin
+  FQuestions[0].Module := 'Модуль 1. Ознакомление';
+  FQuestions[0].MainQuesion := '1. Продолжите предложение';
+  FQuestions[0].Prompt := 'Начальные буквы имени и отчества называются ...?';
+  FQuestions[0].Choices[0] := 'вензель';
+  FQuestions[0].Choices[1] := 'инициалы';
+  FQuestions[0].Choices[2] := 'автограф';
+  FQuestions[0].Choices[3] := 'индекс';
+  FQuestions[0].Choices[4] := 'анаграмма';
+  FQuestions[0].CorrectAnswer := 2;
+
+  FQuestions[1].Module := 'Модуль 1. Ознакомление';
+  FQuestions[1].MainQuesion := '2. Продолжите предложение';
+  FQuestions[1].Prompt := 'Гуманный - это ...?';
+  FQuestions[1].Choices[0] := 'общественный';
+  FQuestions[1].Choices[1] := 'человечный';
+  FQuestions[1].Choices[2] := 'профессиональный';
+  FQuestions[1].Choices[3] := 'агрессивный';
+  FQuestions[1].Choices[4] := 'пренебрежительный';
+  FQuestions[1].CorrectAnswer := 2;
+
+  FQuestions[2].Module := 'Модуль 1. Ознакомление';
+  FQuestions[2].MainQuesion := '3. Продолжите предложение';
+  FQuestions[2].Prompt := 'Система взглядов на природу и общество есть ...?';
+  FQuestions[2].Choices[0] := 'мечта';
+  FQuestions[2].Choices[1] := 'оценка';
+  FQuestions[2].Choices[2] := 'мировоззрение';
+  FQuestions[2].Choices[3] := 'кругозор';
+  FQuestions[2].Choices[4] := 'иллюзия';
+  FQuestions[2].CorrectAnswer := 3;
+
+  FQuestions[3].Module := 'Модуль 1. Ознакомление';
+  FQuestions[3].MainQuesion := '4. Продолжите предложение';
+  FQuestions[3].Prompt := 'Одинаковыми по смыслу являются слова "демократия" и ...? ';
+  FQuestions[3].Choices[0] := 'анархия';
+  FQuestions[3].Choices[1] := 'абсолютизм';
+  FQuestions[3].Choices[2] := 'народовластие';
+  FQuestions[3].Choices[3] := 'династия';
+  FQuestions[3].Choices[4] := 'классы';
+  FQuestions[3].CorrectAnswer := 3;
+
+  FQuestions[4].Module := 'Модуль 1. Ознакомление';
+  FQuestions[4].MainQuesion := '5. Продолжите предложение';
+  FQuestions[4].Prompt := 'Наука о выведении лучших пород животных и сортов растений называется ...?';
+  FQuestions[4].Choices[0] := 'бионика';
+  FQuestions[4].Choices[1] := 'химия';
+  FQuestions[4].Choices[2] := 'селекция';
+  FQuestions[4].Choices[3] := 'ботаника';
+  FQuestions[4].Choices[4] := 'физиология';
+  FQuestions[4].CorrectAnswer := 3;
+
+  FQuestions[5].Module := 'Модуль 1. Ознакомление';
+  FQuestions[5].MainQuesion := '6. Продолжите предложение';
+  FQuestions[5].Prompt := 'Краткая запись, сжатое изложение содержания книги, лекции, доклада -это ...?';
+  FQuestions[5].Choices[0] := 'абзац';
+  FQuestions[5].Choices[1] := 'цитата';
+  FQuestions[5].Choices[2] := 'рубрика';
+  FQuestions[5].Choices[3] := 'отрывок';
+  FQuestions[5].Choices[4] := 'конспект';
+  FQuestions[5].CorrectAnswer := 5;
+
+  FQuestions[6].Module := 'Модуль 1. Ознакомление';
+  FQuestions[6].MainQuesion := '7. Продолжите предложение';
+  FQuestions[6].Prompt := 'Начитанность, глубокие и широкие познания - это ...?';
+  FQuestions[6].Choices[0] := 'интеллигентность';
+  FQuestions[6].Choices[1] := 'опытность';
+  FQuestions[6].Choices[2] := 'эрудиция';
+  FQuestions[6].Choices[3] := 'талант';
+  FQuestions[6].Choices[4] := 'самомнение';
+  FQuestions[6].CorrectAnswer := 3;
+
+  FQuestions[7].Module := 'Модуль 1. Ознакомление';
+  FQuestions[7].MainQuesion := '8. Продолжите предложение';
+  FQuestions[7].Prompt := 'Отсутствие интереса и живого активного участия к окружающему - это ...?';
+  FQuestions[7].Choices[0] := 'рациональность';
+  FQuestions[7].Choices[1] := 'пассивность';
+  FQuestions[7].Choices[2] := 'чуткость';
+  FQuestions[7].Choices[3] := 'противоречивость';
+  FQuestions[7].Choices[4] := 'черствость';
+  FQuestions[7].CorrectAnswer := 2;
+
+  FQuestions[8].Module := 'Модуль 1. Ознакомление';
+  FQuestions[8].MainQuesion := '9. Продолжите предложение';
+  FQuestions[8].Prompt := 'Свод законов, относящихся к какой-либо области человеческой жизни и деятельности называется ...?';
+  FQuestions[8].Choices[0] := 'революцией';
+  FQuestions[8].Choices[1] := 'постановлением';
+  FQuestions[8].Choices[2] := 'традицией';
+  FQuestions[8].Choices[3] := 'кодексом';
+  FQuestions[8].Choices[4] := 'проектом';
+  FQuestions[8].CorrectAnswer := 4;
+
+  FQuestions[9].Module := 'Модуль 1. Ознакомление';
+  FQuestions[9].MainQuesion := '10. Продолжите предложение';
+  FQuestions[9].Prompt := 'Противоположностью понятия "лицемерный" будет ...?';
+  FQuestions[9].Choices[0] := 'искренний';
+  FQuestions[9].Choices[1] := 'противоречивый';
+  FQuestions[9].Choices[2] := 'фальшивый';
+  FQuestions[9].Choices[3] := 'вежливый';
+  FQuestions[9].Choices[4] := 'решительный';
+  FQuestions[9].CorrectAnswer := 1;
+
+  FQuestions[10].Module := 'Модуль 1. Ознакомление';
+  FQuestions[10].MainQuesion := '11. Продолжите предложение';
+  FQuestions[10].Prompt := 'Если спор заканчивается взаимными уступками, тогда говорят о ...?';
+  FQuestions[10].Choices[0] := 'компромиссе';
+  FQuestions[10].Choices[1] := 'общении';
+  FQuestions[10].Choices[2] := 'объединении';
+  FQuestions[10].Choices[3] := 'переговорах';
+  FQuestions[10].Choices[4] := 'противоречии';
+  FQuestions[10].CorrectAnswer := 1;
+
+  FQuestions[11].Module := 'Модуль 1. Ознакомление';
+  FQuestions[11].MainQuesion := '12. Продолжите предложение';
+  FQuestions[11].Prompt := 'Этика - это учение о ...?';
+  FQuestions[11].Choices[0] := 'психике';
+  FQuestions[11].Choices[1] := 'морали';
+  FQuestions[11].Choices[2] := 'природе';
+  FQuestions[11].Choices[3] := 'обществе';
+  FQuestions[11].Choices[4] := 'искусстве';
+  FQuestions[11].CorrectAnswer := 2;
+
+  FQuestions[12].Module := 'Модуль 1. Ознакомление';
+  FQuestions[12].MainQuesion := '13. Продолжите предложение';
+  FQuestions[12].Prompt := 'Противоположностью понятия "идентичный" будет ...?';
+  FQuestions[12].Choices[0] := 'тождественный';
+  FQuestions[12].Choices[1] := 'единственный';
+  FQuestions[12].Choices[2] := 'внушительный';
+  FQuestions[12].Choices[3] := 'различный';
+  FQuestions[12].Choices[4] := 'изолированный';
+  FQuestions[12].CorrectAnswer := 4;
+
+  FQuestions[13].Module := 'Модуль 1. Ознакомление';
+  FQuestions[13].MainQuesion := '14. Продолжите предложение';
+  FQuestions[13].Prompt := 'Освобождение от зависимости, предрассудков, уравнение в правах -это ...?';
+  FQuestions[13].Choices[0] := 'закон';
+  FQuestions[13].Choices[1] := 'эмиграция';
+  FQuestions[13].Choices[2] := 'воззрение';
+  FQuestions[13].Choices[3] := 'действие';
+  FQuestions[13].Choices[4] := 'эмансипация';
+  FQuestions[13].CorrectAnswer := 5;
+
+  FQuestions[14].Module := 'Модуль 1. Ознакомление';
+  FQuestions[14].MainQuesion := '15. Продолжите предложение';
+  FQuestions[14].Prompt := 'Оппозиция - это ...?';
+  FQuestions[14].Choices[0] := 'противодействие';
+  FQuestions[14].Choices[1] := 'согласие';
+  FQuestions[14].Choices[2] := 'мнение';
+  FQuestions[14].Choices[3] := 'политика';
+  FQuestions[14].Choices[4] := 'решение';
+  FQuestions[14].CorrectAnswer := 1;
+
+  FQuestions[15].Module := 'Модуль 1. Ознакомление';
+  FQuestions[15].MainQuesion := '16. Продолжите предложение';
+  FQuestions[15].Prompt := 'Цивилизация - это ...?';
+  FQuestions[15].Choices[0] := 'формация';
+  FQuestions[15].Choices[1] := 'древность';
+  FQuestions[15].Choices[2] := 'производство';
+  FQuestions[15].Choices[3] := 'культура';
+  FQuestions[15].Choices[4] := 'общение';
+  FQuestions[15].CorrectAnswer := 4;
+
+  FQuestions[16].Module := 'Модуль 1. Ознакомление';
+  FQuestions[16].MainQuesion := '17. Продолжите предложение';
+  FQuestions[16].Prompt := 'Одинаковыми по смыслу являются слова "приоритет" и ...?';
+  FQuestions[16].Choices[0] := 'изобретение';
+  FQuestions[16].Choices[1] := 'идея';
+  FQuestions[16].Choices[2] := 'выбор';
+  FQuestions[16].Choices[3] := 'первенство';
+  FQuestions[16].Choices[4] := 'руководство';
+  FQuestions[16].CorrectAnswer := 4;
+
+  FQuestions[17].Module := 'Модуль 1. Ознакомление';
+  FQuestions[17].MainQuesion := '18. Продолжите предложение';
+  FQuestions[17].Prompt := 'Коалиция - это ...?';
+  FQuestions[17].Choices[0] := 'конкуренция';
+  FQuestions[17].Choices[1] := 'политика';
+  FQuestions[17].Choices[2] := 'вражда';
+  FQuestions[17].Choices[3] := 'разрыв';
+  FQuestions[17].Choices[4] := 'объединение';
+  FQuestions[17].CorrectAnswer := 5;
+
+  FQuestions[18].Module := 'Модуль 1. Ознакомление';
+  FQuestions[18].MainQuesion := '19. Продолжите предложение';
+  FQuestions[18].Prompt := 'Одинаковыми по смыслу являются слова "альтруизм" и ...?';
+  FQuestions[18].Choices[0] := 'человеколюбие';
+  FQuestions[18].Choices[1] := 'взаимоотношение';
+  FQuestions[18].Choices[2] := 'вежливость';
+  FQuestions[18].Choices[3] := 'эгоизм';
+  FQuestions[18].Choices[4] := 'нравственность';
+  FQuestions[18].CorrectAnswer := 1;
+
+  FQuestions[19].Module := 'Модуль 1. Ознакомление';
+  FQuestions[19].MainQuesion := '20. Продолжите предложение';
+  FQuestions[19].Prompt := 'Человек, который скептически относится к прогрессу, является ...?';
+  FQuestions[19].Choices[0] := 'демократом';
+  FQuestions[19].Choices[1] := 'радикалом';
+  FQuestions[19].Choices[2] := 'консерватором';
+  FQuestions[19].Choices[3] := 'либералом';
+  FQuestions[19].Choices[4] := 'анархистом';
+  FQuestions[19].CorrectAnswer := 3;
+
+
+
+  FQuestions[20].Module := 'Модуль 2. Ознакомление';
+  FQuestions[20].MainQuesion := '1. Подберите синоним';
+  FQuestions[20].Prompt := 'Прогрессивный - ';
+  FQuestions[20].Choices[0] := 'интеллектуальный';
+  FQuestions[20].Choices[1] := 'передовой';
+  FQuestions[20].Choices[2] := 'ловкий';
+  FQuestions[20].Choices[3] := 'отсталый';
+  FQuestions[20].Choices[4] := 'консервативный';
+  FQuestions[20].CorrectAnswer := 2;
+
+  FQuestions[21].Module := 'Модуль 2. Ознакомление';
+  FQuestions[21].MainQuesion := '2. Подберите синоним';
+  FQuestions[21].Prompt := 'Аннулирование - ';
+  FQuestions[21].Choices[0] := 'подписание';
+  FQuestions[21].Choices[1] := 'отмена';
+  FQuestions[21].Choices[2] := 'сообщение';
+  FQuestions[21].Choices[3] := 'отсрочка';
+  FQuestions[21].Choices[4] := 'предписание';
+  FQuestions[21].CorrectAnswer := 2;
+
+  FQuestions[22].Module := 'Модуль 2. Ознакомление';
+  FQuestions[22].MainQuesion := '3. Подберите синоним';
+  FQuestions[22].Prompt := 'Идеал - ';
+  FQuestions[22].Choices[0] := 'фантазия';
+  FQuestions[22].Choices[1] := 'будущее';
+  FQuestions[22].Choices[2] := 'мудрость';
+  FQuestions[22].Choices[3] := 'совершенство';
+  FQuestions[22].Choices[4] := 'глупость';
+  FQuestions[22].CorrectAnswer := 4;
+
+  FQuestions[23].Module := 'Модуль 2. Ознакомление';
+  FQuestions[23].MainQuesion := '4. Подберите синоним';
+  FQuestions[23].Prompt := 'Аргумент - ';
+  FQuestions[23].Choices[0] := 'довод';
+  FQuestions[23].Choices[1] := 'согласие';
+  FQuestions[23].Choices[2] := 'спор';
+  FQuestions[23].Choices[3] := 'фраза';
+  FQuestions[23].Choices[4] := 'отказ';
+  FQuestions[23].CorrectAnswer := 1;
+
+  FQuestions[24].Module := 'Модуль 2. Ознакомление';
+  FQuestions[24].MainQuesion := '5. Подберите синоним';
+  FQuestions[24].Prompt := 'Миф - ';
+  FQuestions[24].Choices[0] := 'древность';
+  FQuestions[24].Choices[1] := 'творчество';
+  FQuestions[24].Choices[2] := 'предание';
+  FQuestions[24].Choices[3] := 'наука';
+  FQuestions[24].Choices[4] := 'факт';
+  FQuestions[24].CorrectAnswer := 3;
+
+  FQuestions[25].Module := 'Модуль 2. Ознакомление';
+  FQuestions[25].MainQuesion := '6. Подберите синоним';
+  FQuestions[25].Prompt := 'Аморальный - ';
+  FQuestions[25].Choices[0] := 'устойчивый';
+  FQuestions[25].Choices[1] := 'трудный';
+  FQuestions[25].Choices[2] := 'неприятный';
+  FQuestions[25].Choices[3] := 'безнравственный';
+  FQuestions[25].Choices[4] := 'функциональный';
+  FQuestions[25].CorrectAnswer := 4;
+
+  FQuestions[26].Module := 'Модуль 2. Ознакомление';
+  FQuestions[26].MainQuesion := '7. Подберите синоним';
+  FQuestions[26].Prompt := 'Анализ - ';
+  FQuestions[26].Choices[0] := 'факты';
+  FQuestions[26].Choices[1] := 'разбор';
+  FQuestions[26].Choices[2] := 'критика';
+  FQuestions[26].Choices[3] := 'умение';
+  FQuestions[26].Choices[4] := 'синтез';
+  FQuestions[26].CorrectAnswer := 2;
+
+  FQuestions[27].Module := 'Модуль 2. Ознакомление';
+  FQuestions[27].MainQuesion := '8. Подберите синоним';
+  FQuestions[27].Prompt := 'Эталон - ';
+  FQuestions[27].Choices[0] := 'копия';
+  FQuestions[27].Choices[1] := 'форма';
+  FQuestions[27].Choices[2] := 'основа';
+  FQuestions[27].Choices[3] := 'образец';
+  FQuestions[27].Choices[4] := 'брак';
+  FQuestions[27].CorrectAnswer := 4;
+
+  FQuestions[28].Module := 'Модуль 2. Ознакомление';
+  FQuestions[28].MainQuesion := '9. Подберите синоним';
+  FQuestions[28].Prompt := 'Сферический - ';
+  FQuestions[28].Choices[0] := 'продолговатый';
+  FQuestions[28].Choices[1] := 'шаровидный';
+  FQuestions[28].Choices[2] := 'пустой';
+  FQuestions[28].Choices[3] := 'объемный';
+  FQuestions[28].Choices[4] := 'двумерный';
+  FQuestions[28].CorrectAnswer := 2;
+
+  FQuestions[29].Module := 'Модуль 2. Ознакомление';
+  FQuestions[29].MainQuesion := '10. Подберите синоним';
+  FQuestions[29].Prompt := 'Социальный - ';
+  FQuestions[29].Choices[0] := 'принятый';
+  FQuestions[29].Choices[1] := 'свободный';
+  FQuestions[29].Choices[2] := 'запланированный';
+  FQuestions[29].Choices[3] := 'общественный';
+  FQuestions[29].Choices[4] := 'аморальный';
+  FQuestions[29].CorrectAnswer := 4;
+
+  FQuestions[30].Module := 'Модуль 2. Ознакомление';
+  FQuestions[30].MainQuesion := '11. Подберите синоним';
+  FQuestions[30].Prompt := 'Гравитация - ';
+  FQuestions[30].Choices[0] := 'притяжение';
+  FQuestions[30].Choices[1] := 'отталкивание';
+  FQuestions[30].Choices[2] := 'невесомость';
+  FQuestions[30].Choices[3] := 'подъем';
+  FQuestions[30].Choices[4] := 'взлёт';
+  FQuestions[30].CorrectAnswer := 1;
+
+  FQuestions[31].Module := 'Модуль 2. Ознакомление';
+  FQuestions[31].MainQuesion := '12. Подберите синоним';
+  FQuestions[31].Prompt := 'Сентиментальный - ';
+  FQuestions[31].Choices[0] := 'поэтический';
+  FQuestions[31].Choices[1] := 'чувствительный';
+  FQuestions[31].Choices[2] := 'радостный';
+  FQuestions[31].Choices[3] := 'странный';
+  FQuestions[31].Choices[4] := 'грустный';
+  FQuestions[31].CorrectAnswer := 2;
+
+  FQuestions[32].Module := 'Модуль 2. Ознакомление';
+  FQuestions[32].MainQuesion := '13. Подберите синоним';
+  FQuestions[32].Prompt := 'Экспорт - ';
+  FQuestions[32].Choices[0] := 'продажа';
+  FQuestions[32].Choices[1] := 'товары';
+  FQuestions[32].Choices[2] := 'вывоз';
+  FQuestions[32].Choices[3] := 'торговля';
+  FQuestions[32].Choices[4] := 'покупка';
+  FQuestions[32].CorrectAnswer := 3;
+
+  FQuestions[33].Module := 'Модуль 2. Ознакомление';
+  FQuestions[33].MainQuesion := '14. Подберите синоним';
+  FQuestions[33].Prompt := 'Эффективный - ';
+  FQuestions[33].Choices[0] := 'необходимый';
+  FQuestions[33].Choices[1] := 'действенный';
+  FQuestions[33].Choices[2] := 'решительный';
+  FQuestions[33].Choices[3] := 'особый';
+  FQuestions[33].Choices[4] := 'безрезультативный';
+  FQuestions[33].CorrectAnswer := 2;
+
+  FQuestions[34].Module := 'Модуль 2. Ознакомление';
+  FQuestions[34].MainQuesion := '15. Подберите синоним';
+  FQuestions[34].Prompt := 'Мораль - ';
+  FQuestions[34].Choices[0] := 'этика';
+  FQuestions[34].Choices[1] := 'развитие';
+  FQuestions[34].Choices[2] := 'способности';
+  FQuestions[34].Choices[3] := 'право';
+  FQuestions[34].Choices[4] := 'закон';
+  FQuestions[34].CorrectAnswer := 1;
+
+  FQuestions[35].Module := 'Модуль 2. Ознакомление';
+  FQuestions[35].MainQuesion := '16. Подберите синоним';
+  FQuestions[35].Prompt := 'Модифицировать - ';
+  FQuestions[35].Choices[0] := 'работать';
+  FQuestions[35].Choices[1] := 'наблюдать';
+  FQuestions[35].Choices[2] := 'изучать';
+  FQuestions[35].Choices[3] := 'видоизменять';
+  FQuestions[35].Choices[4] := 'делить';
+  FQuestions[35].CorrectAnswer := 4;
+
+  FQuestions[36].Module := 'Модуль 2. Ознакомление';
+  FQuestions[36].MainQuesion := '17. Подберите синоним';
+  FQuestions[36].Prompt := 'Радикальный - ';
+  FQuestions[36].Choices[0] := 'коренной';
+  FQuestions[36].Choices[1] := 'ответный';
+  FQuestions[36].Choices[2] := 'последний';
+  FQuestions[36].Choices[3] := 'отсталый';
+  FQuestions[36].Choices[4] := 'постепенный';
+  FQuestions[36].CorrectAnswer := 1;
+
+  FQuestions[37].Module := 'Модуль 2. Ознакомление';
+  FQuestions[37].MainQuesion := '18. Подберите синоним';
+  FQuestions[37].Prompt := 'Негативный - ';
+  FQuestions[37].Choices[0] := 'неудачный';
+  FQuestions[37].Choices[1] := 'ложный';
+  FQuestions[37].Choices[2] := 'отрицательный';
+  FQuestions[37].Choices[3] := 'неосторожный';
+  FQuestions[37].Choices[4] := 'добрый';
+  FQuestions[37].CorrectAnswer := 3;
+
+  FQuestions[38].Module := 'Модуль 2. Ознакомление';
+  FQuestions[38].MainQuesion := '19. Подберите синоним';
+  FQuestions[38].Prompt := 'Субъективный - ';
+  FQuestions[38].Choices[0] := 'практический';
+  FQuestions[38].Choices[1] := 'общественный';
+  FQuestions[38].Choices[2] := 'личный';
+  FQuestions[38].Choices[3] := 'скрытый';
+  FQuestions[38].Choices[4] := 'независимый';
+  FQuestions[38].CorrectAnswer := 3;
+
+  FQuestions[39].Module := 'Модуль 2. Ознакомление';
+  FQuestions[39].MainQuesion := '20. Подберите синоним';
+  FQuestions[39].Prompt := 'Аграрный - ';
+  FQuestions[39].Choices[0] := 'местный';
+  FQuestions[39].Choices[1] := 'хозяйственный';
+  FQuestions[39].Choices[2] := 'земельный';
+  FQuestions[39].Choices[3] := 'крестьянский';
+  FQuestions[39].Choices[4] := 'городской';
+  FQuestions[39].CorrectAnswer := 3;
+
+  FQuestions[40].Module := 'Модуль 3. Аналогии';
+  FQuestions[40].MainQuesion := '1. Между третьим и одним из слов существует связь. Вам нужно выбрать его.';
+  FQuestions[40].Prompt := 'Глагол: спрягать = существительное: ?';
+  FQuestions[40].Choices[0] := 'изменять';
+  FQuestions[40].Choices[1] := 'образовывать';
+  FQuestions[40].Choices[2] := 'употреблять';
+  FQuestions[40].Choices[3] := 'склонять';
+  FQuestions[40].Choices[4] := 'писать';
+  FQuestions[40].CorrectAnswer := 4;
+
+  FQuestions[41].Module := 'Модуль 3. Аналогии';
+  FQuestions[41].MainQuesion := '2. Между третьим и одним из слов существует связь. Вам нужно выбрать его.';
+  FQuestions[41].Prompt := 'Холодно: горячо = движение: ?';
+  FQuestions[41].Choices[0] := 'инерция';
+  FQuestions[41].Choices[1] := 'покой';
+  FQuestions[41].Choices[2] := 'молекула';
+  FQuestions[41].Choices[3] := 'взаимодействие';
+  FQuestions[41].Choices[4] := 'скорость';
+  FQuestions[41].CorrectAnswer := 2;
+
+  FQuestions[42].Module := 'Модуль 3. Аналогии';
+  FQuestions[42].MainQuesion := '3. Между третьим и одним из слов существует связь. Вам нужно выбрать его.';
+  FQuestions[42].Prompt := 'Колумб: путешественник = землетрясение: ?';
+  FQuestions[42].Choices[0] := 'первооткрыватель';
+  FQuestions[42].Choices[1] := 'образование гор';
+  FQuestions[42].Choices[2] := 'извержение';
+  FQuestions[42].Choices[3] := 'жертвы';
+  FQuestions[42].Choices[4] := 'природное явление';
+  FQuestions[42].CorrectAnswer := 5;
+
+  FQuestions[43].Module := 'Модуль 3. Аналогии';
+  FQuestions[43].MainQuesion := '4. Между третьим и одним из слов существует связь. Вам нужно выбрать его.';
+  FQuestions[43].Prompt := 'Слагаемое: сумма = множители: ?';
+  FQuestions[43].Choices[0] := 'разность';
+  FQuestions[43].Choices[1] := 'делитель';
+  FQuestions[43].Choices[2] := 'произведение';
+  FQuestions[43].Choices[3] := 'умножение';
+  FQuestions[43].Choices[4] := 'число';
+  FQuestions[43].CorrectAnswer := 3;
+
+  FQuestions[44].Module := 'Модуль 3. Аналогии';
+  FQuestions[44].MainQuesion := '5. Между третьим и одним из слов существует связь. Вам нужно выбрать его.';
+  FQuestions[44].Prompt := 'Рабовладельцы: буржуазия = рабы: ?';
+  FQuestions[44].Choices[0] := 'рабовладельческий строй';
+  FQuestions[44].Choices[1] := 'буржуазия';
+  FQuestions[44].Choices[2] := 'рабовладельцы';
+  FQuestions[44].Choices[3] := 'наемные рабочие';
+  FQuestions[44].Choices[4] := 'пленные';
+  FQuestions[44].CorrectAnswer := 4;
+
+  FQuestions[45].Module := 'Модуль 3. Аналогии';
+  FQuestions[45].MainQuesion := '6. Между третьим и одним из слов существует связь. Вам нужно выбрать его.';
+  FQuestions[45].Prompt := 'Папоротник: спора = сосна: ?';
+  FQuestions[45].Choices[0] := 'шишка';
+  FQuestions[45].Choices[1] := 'иголка';
+  FQuestions[45].Choices[2] := 'растение';
+  FQuestions[45].Choices[3] := 'семя';
+  FQuestions[45].Choices[4] := 'ель';
+  FQuestions[45].CorrectAnswer := 4;
+
+  FQuestions[46].Module := 'Модуль 3. Аналогии';
+  FQuestions[46].MainQuesion := '7. Между третьим и одним из слов существует связь. Вам нужно выбрать его.';
+  FQuestions[46].Prompt := 'Стихотворение: поэзия = рассказ: ?';
+  FQuestions[46].Choices[0] := 'книга';
+  FQuestions[46].Choices[1] := 'писатель';
+  FQuestions[46].Choices[2] := 'повесть';
+  FQuestions[46].Choices[3] := 'предложение';
+  FQuestions[46].Choices[4] := 'проза';
+  FQuestions[46].CorrectAnswer := 5;
+
+  FQuestions[47].Module := 'Модуль 3. Аналогии';
+  FQuestions[47].MainQuesion := '8. Между третьим и одним из слов существует связь. Вам нужно выбрать его.';
+  FQuestions[47].Prompt := 'Горы: высота - климат: ?';
+  FQuestions[47].Choices[0] := 'рельеф';
+  FQuestions[47].Choices[1] := 'температура';
+  FQuestions[47].Choices[2] := 'природа';
+  FQuestions[47].Choices[3] := 'географическая широта';
+  FQuestions[47].Choices[4] := 'растительность';
+  FQuestions[47].CorrectAnswer := 2;
+
+  FQuestions[48].Module := 'Модуль 3. Аналогии';
+  FQuestions[48].MainQuesion := '9. Между третьим и одним из слов существует связь. Вам нужно выбрать его.';
+  FQuestions[48].Prompt := 'Растение: стебель = клетка: ?';
+  FQuestions[48].Choices[0] := 'ядро';
+  FQuestions[48].Choices[1] := 'хромосома';
+  FQuestions[48].Choices[2] := 'белок';
+  FQuestions[48].Choices[3] := 'фермент';
+  FQuestions[48].Choices[4] := 'деление';
+  FQuestions[48].CorrectAnswer := 1;
+
+  FQuestions[49].Module := 'Модуль 3. Аналогии';
+  FQuestions[49].MainQuesion := '10. Между третьим и одним из слов существует связь. Вам нужно выбрать его.';
+  FQuestions[49].Prompt := 'Богатство: бедность = крепостная зависимость: ?';
+  FQuestions[49].Choices[0] := 'крепостные крестьяне';
+  FQuestions[49].Choices[1] := 'личная свобода';
+  FQuestions[49].Choices[2] := 'неравенство';
+  FQuestions[49].Choices[3] := 'частная собственность';
+  FQuestions[49].Choices[4] := 'феодальный строй';
+  FQuestions[49].CorrectAnswer := 2;
+
+  FQuestions[50].Module := 'Модуль 3. Аналогии';
+  FQuestions[50].MainQuesion := '11. Между третьим и одним из слов существует связь. Вам нужно выбрать его.';
+  FQuestions[50].Prompt := 'Старт: финиш = пролог: ?';
+  FQuestions[50].Choices[0] := 'заголовок';
+  FQuestions[50].Choices[1] := 'введение';
+  FQuestions[50].Choices[2] := 'кульминация';
+  FQuestions[50].Choices[3] := 'действие';
+  FQuestions[50].Choices[4] := 'эпилог';
+  FQuestions[50].CorrectAnswer := 5;
+
+  FQuestions[51].Module := 'Модуль 3. Аналогии';
+  FQuestions[51].MainQuesion := '12. Между третьим и одним из слов существует связь. Вам нужно выбрать его.';
+  FQuestions[51].Prompt := 'Молния: свет = явление тяготения: ?';
+  FQuestions[51].Choices[0] := 'камень';
+  FQuestions[51].Choices[1] := 'движение';
+  FQuestions[51].Choices[2] := 'сила тяжести';
+  FQuestions[51].Choices[3] := 'вес';
+  FQuestions[51].Choices[4] := 'Земля';
+  FQuestions[51].CorrectAnswer := 3;
+
+  FQuestions[52].Module := 'Модуль 3. Аналогии';
+  FQuestions[52].MainQuesion := '13. Между третьим и одним из слов существует связь. Вам нужно выбрать его.';
+  FQuestions[52].Prompt := 'Первобытно-общинный строй: рабовладельческий строй = рабовладельческий строй: ?';
+  FQuestions[52].Choices[0] := 'социализм';
+  FQuestions[52].Choices[1] := 'капитализм';
+  FQuestions[52].Choices[2] := 'рабовладельцы';
+  FQuestions[52].Choices[3] := 'государство';
+  FQuestions[52].Choices[4] := 'феодализм';
+  FQuestions[52].CorrectAnswer := 5;
+
+  FQuestions[53].Module := 'Модуль 3. Аналогии';
+  FQuestions[53].MainQuesion := '14. Между третьим и одним из слов существует связь. Вам нужно выбрать его.';
+  FQuestions[53].Prompt := 'Роман: глава = стихотворение: ?';
+  FQuestions[53].Choices[0] := 'поэма';
+  FQuestions[53].Choices[1] := 'рифма';
+  FQuestions[53].Choices[2] := 'строфа';
+  FQuestions[53].Choices[3] := 'ритм';
+  FQuestions[53].Choices[4] := 'жанр';
+  FQuestions[53].CorrectAnswer := 3;
+
+  FQuestions[54].Module := 'Модуль 3. Аналогии';
+  FQuestions[54].MainQuesion := '15. Между третьим и одним из слов существует связь. Вам нужно выбрать его.';
+  FQuestions[54].Prompt := 'Тепло: жизнедеятельность = кислород: ?';
+  FQuestions[54].Choices[0] := 'газ';
+  FQuestions[54].Choices[1] := 'растение';
+  FQuestions[54].Choices[2] := 'воздух';
+  FQuestions[54].Choices[3] := 'развитие';
+  FQuestions[54].Choices[4] := 'дыхание';
+  FQuestions[54].CorrectAnswer := 5;
+
+  FQuestions[55].Module := 'Модуль 3. Аналогии';
+  FQuestions[55].MainQuesion := '16. Между третьим и одним из слов существует связь. Вам нужно выбрать его.';
+  FQuestions[55].Prompt := 'Фигура: треугольник = состояние вещества: ?';
+  FQuestions[55].Choices[0] := 'жидкость';
+  FQuestions[55].Choices[1] := 'движение';
+  FQuestions[55].Choices[2] := 'температура';
+  FQuestions[55].Choices[3] := 'вода';
+  FQuestions[55].Choices[4] := 'молекула';
+  FQuestions[55].CorrectAnswer := 1;
+
+  FQuestions[56].Module := 'Модуль 3. Аналогии';
+  FQuestions[56].MainQuesion := '17. Между третьим и одним из слов существует связь. Вам нужно выбрать его.';
+  FQuestions[56].Prompt := 'Роза: цветок = капиталист: ?';
+  FQuestions[56].Choices[0] := 'эксплуатация';
+  FQuestions[56].Choices[1] := 'рабочие';
+  FQuestions[56].Choices[2] := 'капитализм';
+  FQuestions[56].Choices[3] := 'класс';
+  FQuestions[56].Choices[4] := 'фабрика';
+  FQuestions[56].CorrectAnswer := 4;
+
+  FQuestions[57].Module := 'Модуль 3. Аналогии';
+  FQuestions[57].MainQuesion := '18. Между третьим и одним из слов существует связь. Вам нужно выбрать его.';
+  FQuestions[57].Prompt := 'Понижение атмосферного давления: осадки = антициклон: ?';
+  FQuestions[57].Choices[0] := 'ясная погода';
+  FQuestions[57].Choices[1] := 'циклон';
+  FQuestions[57].Choices[2] := 'климат';
+  FQuestions[57].Choices[3] := 'влажность';
+  FQuestions[57].Choices[4] := 'метеослужба';
+  FQuestions[57].CorrectAnswer := 1;
+
+  FQuestions[58].Module := 'Модуль 3. Аналогии';
+  FQuestions[58].MainQuesion := '19. Между третьим и одним из слов существует связь. Вам нужно выбрать его.';
+  FQuestions[58].Prompt := 'Прямоугольник: плоскость = куб: ?';
+  FQuestions[58].Choices[0] := 'пространство';
+  FQuestions[58].Choices[1] := 'ребро';
+  FQuestions[58].Choices[2] := 'высота';
+  FQuestions[58].Choices[3] := 'треугольник';
+  FQuestions[58].Choices[4] := 'сторона';
+  FQuestions[58].CorrectAnswer := 1;
+
+  FQuestions[59].Module := 'Модуль 3. Аналогии';
+  FQuestions[59].MainQuesion := '20. Между третьим и одним из слов существует связь. Вам нужно выбрать его.';
+  FQuestions[59].Prompt := 'Война: смерть = частная собственность: ?';
+  FQuestions[59].Choices[0] := 'феодалы';
+  FQuestions[59].Choices[1] := 'капитализм';
+  FQuestions[59].Choices[2] := 'неравенство';
+  FQuestions[59].Choices[3] := 'рабы';
+  FQuestions[59].Choices[4] := 'крепостные крестьяне';
+  FQuestions[59].CorrectAnswer := 3;
+
+  FQuestions[60].Module := 'Модуль 3. Аналогии';
+  FQuestions[60].MainQuesion := '21. Между третьим и одним из слов существует связь. Вам нужно выбрать его.';
+  FQuestions[60].Prompt := 'Числительное: количество = глагол: ?';
+  FQuestions[60].Choices[0] := 'идти';
+  FQuestions[60].Choices[1] := 'действие';
+  FQuestions[60].Choices[2] := 'причастие';
+  FQuestions[60].Choices[3] := 'часть речи';
+  FQuestions[60].Choices[4] := 'спрягать';
+  FQuestions[60].CorrectAnswer := 2;
+
+  FQuestions[61].Module := 'Модуль 3. Аналогии';
+  FQuestions[61].MainQuesion := '22. Между третьим и одним из слов существует связь. Вам нужно выбрать его.';
+  FQuestions[61].Prompt := 'Север: юг = осадки: ?';
+  FQuestions[61].Choices[0] := 'пустыня';
+  FQuestions[61].Choices[1] := 'полюс';
+  FQuestions[61].Choices[2] := 'дождь';
+  FQuestions[61].Choices[3] := 'засуха';
+  FQuestions[61].Choices[4] := 'климат';
+  FQuestions[61].CorrectAnswer := 4;
+
+  FQuestions[62].Module := 'Модуль 3. Аналогии';
+  FQuestions[62].MainQuesion := '23. Между третьим и одним из слов существует связь. Вам нужно выбрать его.';
+  FQuestions[62].Prompt := ' Диаметр: радиус = окружность: ?';
+  FQuestions[62].Choices[0] := 'дуга';
+  FQuestions[62].Choices[1] := 'сегмент';
+  FQuestions[62].Choices[2] := 'отрезок';
+  FQuestions[62].Choices[3] := 'линия';
+  FQuestions[62].Choices[4] := 'круг';
+  FQuestions[62].CorrectAnswer := 1;
+
+  FQuestions[63].Module := 'Модуль 3. Аналогии';
+  FQuestions[63].MainQuesion := '24. Между третьим и одним из слов существует связь. Вам нужно выбрать его.';
+  FQuestions[63].Prompt := 'Эпителий: ткань = аорта: ?';
+  FQuestions[63].Choices[0] := 'сердце';
+  FQuestions[63].Choices[1] := 'внутренний орган';
+  FQuestions[63].Choices[2] := 'артерия';
+  FQuestions[63].Choices[3] := 'вена';
+  FQuestions[63].Choices[4] := 'кровь';
+  FQuestions[63].CorrectAnswer := 3;
+
+  FQuestions[64].Module := 'Модуль 3. Аналогии';
+  FQuestions[64].MainQuesion := '25. Между третьим и одним из слов существует связь. Вам нужно выбрать его.';
+  FQuestions[64].Prompt := ' Молоток: забивать = генератор: ?';
+  FQuestions[64].Choices[0] := 'соединить';
+  FQuestions[64].Choices[1] := 'производить';
+  FQuestions[64].Choices[2] := 'включать';
+  FQuestions[64].Choices[3] := 'изменять';
+  FQuestions[64].Choices[4] := 'нагревать';
+  FQuestions[64].CorrectAnswer := 2;
+
+  FQuestions[65].Module := 'Модуль 4. Классификации';
+  FQuestions[65].MainQuesion := '1. Найдите лишнее слово из предложенных.';
+  FQuestions[65].Prompt := '';
+  FQuestions[65].Choices[0] := 'приставка';
+  FQuestions[65].Choices[1] := 'предлог';
+  FQuestions[65].Choices[2] := 'суффикс';
+  FQuestions[65].Choices[3] := 'окончание';
+  FQuestions[65].Choices[4] := 'корень';
+  FQuestions[65].CorrectAnswer := 2;
+
+  FQuestions[66].Module := 'Модуль 4. Классификации';
+  FQuestions[66].MainQuesion := '2. Найдите лишнее слово из предложенных.';
+  FQuestions[66].Prompt := '';
+  FQuestions[66].Choices[0] := 'прямая';
+  FQuestions[66].Choices[1] := 'ромб';
+  FQuestions[66].Choices[2] := 'прямоугольник';
+  FQuestions[66].Choices[3] := 'квадрат';
+  FQuestions[66].Choices[4] := 'треугольник';
+  FQuestions[66].CorrectAnswer := 1;
+
+  FQuestions[67].Module := 'Модуль 4. Классификации';
+  FQuestions[67].MainQuesion := '3. Найдите лишнее слово из предложенных.';
+  FQuestions[67].Prompt := '';
+  FQuestions[67].Choices[0] := 'барометр';
+  FQuestions[67].Choices[1] := 'флюгер';
+  FQuestions[67].Choices[2] := 'термометр';
+  FQuestions[67].Choices[3] := 'компас';
+  FQuestions[67].Choices[4] := 'азимут';
+  FQuestions[67].CorrectAnswer := 5;
+
+  FQuestions[68].Module := 'Модуль 4. Классификации';
+  FQuestions[68].MainQuesion := '4. Найдите лишнее слово из предложенных.';
+  FQuestions[68].Prompt := '';
+  FQuestions[68].Choices[0] := 'рабовладелец';
+  FQuestions[68].Choices[1] := 'раб';
+  FQuestions[68].Choices[2] := 'крестьянин';
+  FQuestions[68].Choices[3] := 'рабочий';
+  FQuestions[68].Choices[4] := 'ремесленик';
+  FQuestions[68].CorrectAnswer := 1;
+
+  FQuestions[69].Module := 'Модуль 4. Классификации';
+  FQuestions[69].MainQuesion := '5. Найдите лишнее слово из предложенных.';
+  FQuestions[69].Prompt := '';
+  FQuestions[69].Choices[0] := 'пословица';
+  FQuestions[69].Choices[1] := 'стихотворение';
+  FQuestions[69].Choices[2] := 'поэма';
+  FQuestions[69].Choices[3] := 'рассказ';
+  FQuestions[69].Choices[4] := 'повесть';
+  FQuestions[69].CorrectAnswer := 1;
+
+  FQuestions[70].Module := 'Модуль 4. Классификации';
+  FQuestions[70].MainQuesion := '6. Найдите лишнее слово из предложенных.';
+  FQuestions[70].Prompt := '';
+  FQuestions[70].Choices[0] := 'цитоплазма';
+  FQuestions[70].Choices[1] := 'питание';
+  FQuestions[70].Choices[2] := 'рост';
+  FQuestions[70].Choices[3] := 'раздражимость';
+  FQuestions[70].Choices[4] := 'размножение';
+  FQuestions[70].CorrectAnswer := 1;
+
+  FQuestions[71].Module := 'Модуль 4. Классификации';
+  FQuestions[71].MainQuesion := '7. Найдите лишнее слово из предложенных.';
+  FQuestions[71].Prompt := '';
+  FQuestions[71].Choices[0] := 'дождь';
+  FQuestions[71].Choices[1] := 'снег';
+  FQuestions[71].Choices[2] := 'осадки';
+  FQuestions[71].Choices[3] := 'иней';
+  FQuestions[71].Choices[4] := 'град';
+  FQuestions[71].CorrectAnswer := 3;
+
+  FQuestions[72].Module := 'Модуль 4. Классификации';
+  FQuestions[72].MainQuesion := '8. Найдите лишнее слово из предложенных.';
+  FQuestions[72].Prompt := '';
+  FQuestions[72].Choices[0] := 'треугольник';
+  FQuestions[72].Choices[1] := 'отрезок';
+  FQuestions[72].Choices[2] := 'длина';
+  FQuestions[72].Choices[3] := 'квадрат';
+  FQuestions[72].Choices[4] := 'круг';
+  FQuestions[72].CorrectAnswer := 3;
+
+  FQuestions[73].Module := 'Модуль 4. Классификации';
+  FQuestions[73].MainQuesion := '9. Найдите лишнее слово из предложенных.';
+  FQuestions[73].Prompt := '';
+  FQuestions[73].Choices[0] := 'пейзаж';
+  FQuestions[73].Choices[1] := 'мозаика';
+  FQuestions[73].Choices[2] := 'икона';
+  FQuestions[73].Choices[3] := 'фреска';
+  FQuestions[73].Choices[4] := 'кисть';
+  FQuestions[73].CorrectAnswer := 5;
+
+  FQuestions[74].Module := 'Модуль 4. Классификации';
+  FQuestions[74].MainQuesion := '10. Найдите лишнее слово из предложенных.';
+  FQuestions[74].Prompt := '';
+  FQuestions[74].Choices[0] := 'очерк';
+  FQuestions[74].Choices[1] := 'роман';
+  FQuestions[74].Choices[2] := 'рассказ';
+  FQuestions[74].Choices[3] := 'сюжет';
+  FQuestions[74].Choices[4] := 'повесть';
+  FQuestions[74].CorrectAnswer := 4;
+
+  FQuestions[75].Module := 'Модуль 4. Классификации';
+  FQuestions[75].MainQuesion := '11. Найдите лишнее слово из предложенных.';
+  FQuestions[75].Prompt := '';
+  FQuestions[75].Choices[0] := 'параллель';
+  FQuestions[75].Choices[1] := 'карта';
+  FQuestions[75].Choices[2] := 'меридиан';
+  FQuestions[75].Choices[3] := 'экватор';
+  FQuestions[75].Choices[4] := 'полюс';
+  FQuestions[75].CorrectAnswer := 2;
+
+  FQuestions[76].Module := 'Модуль 4. Классификации';
+  FQuestions[76].MainQuesion := '12. Найдите лишнее слово из предложенных.';
+  FQuestions[76].Prompt := '';
+  FQuestions[76].Choices[0] := 'литература';
+  FQuestions[76].Choices[1] := 'наука';
+  FQuestions[76].Choices[2] := 'живопись';
+  FQuestions[76].Choices[3] := 'зодчество';
+  FQuestions[76].Choices[4] := 'художественное ремесло';
+  FQuestions[76].CorrectAnswer := 2;
+
+  FQuestions[77].Module := 'Модуль 4. Классификации';
+  FQuestions[77].MainQuesion := '13. Найдите лишнее слово из предложенных.';
+  FQuestions[77].Prompt := '';
+  FQuestions[77].Choices[0] := 'длина';
+  FQuestions[77].Choices[1] := 'метр';
+  FQuestions[77].Choices[2] := 'масса';
+  FQuestions[77].Choices[3] := 'объем';
+  FQuestions[77].Choices[4] := 'скорость';
+  FQuestions[77].CorrectAnswer := 2;
+
+  FQuestions[78].Module := 'Модуль 4. Классификации';
+  FQuestions[78].MainQuesion := '14. Найдите лишнее слово из предложенных.';
+  FQuestions[78].Prompt := '';
+  FQuestions[78].Choices[0] := 'углекислый газ';
+  FQuestions[78].Choices[1] := 'свет';
+  FQuestions[78].Choices[2] := 'вода';
+  FQuestions[78].Choices[3] := 'крахмал';
+  FQuestions[78].Choices[4] := 'хлорофилл';
+  FQuestions[78].CorrectAnswer := 4;
+
+  FQuestions[79].Module := 'Модуль 4. Классификации';
+  FQuestions[79].MainQuesion := '15. Найдите лишнее слово из предложенных.';
+  FQuestions[79].Prompt := '';
+  FQuestions[79].Choices[0] := 'пролог';
+  FQuestions[79].Choices[1] := 'кульминация';
+  FQuestions[79].Choices[2] := 'информация';
+  FQuestions[79].Choices[3] := 'развязка';
+  FQuestions[79].Choices[4] := 'эпилог';
+  FQuestions[79].CorrectAnswer := 3;
+
+  FQuestions[80].Module := 'Модуль 4. Классификации';
+  FQuestions[80].MainQuesion := '16. Найдите лишнее слово из предложенных.';
+  FQuestions[80].Prompt := '';
+  FQuestions[80].Choices[0] := 'скорость';
+  FQuestions[80].Choices[1] := 'колебание';
+  FQuestions[80].Choices[2] := 'сила';
+  FQuestions[80].Choices[3] := 'вес';
+  FQuestions[80].Choices[4] := 'плотность';
+  FQuestions[80].CorrectAnswer := 2;
+
+  FQuestions[81].Module := 'Модуль 4. Классификации';
+  FQuestions[81].MainQuesion := '17. Найдите лишнее слово из предложенных.';
+  FQuestions[81].Prompt := '';
+  FQuestions[81].Choices[0] := 'Куба';
+  FQuestions[81].Choices[1] := 'Япония';
+  FQuestions[81].Choices[2] := 'Вьетнам';
+  FQuestions[81].Choices[3] := 'Великобритания';
+  FQuestions[81].Choices[4] := 'Исландия';
+  FQuestions[81].CorrectAnswer := 3;
+
+  FQuestions[82].Module := 'Модуль 4. Классификации';
+  FQuestions[82].MainQuesion := '18. Найдите лишнее слово из предложенных.';
+  FQuestions[82].Prompt := '';
+  FQuestions[82].Choices[0] := 'товар';
+  FQuestions[82].Choices[1] := 'город';
+  FQuestions[82].Choices[2] := 'ярмарка';
+  FQuestions[82].Choices[3] := 'натуральное хозяйство';
+  FQuestions[82].Choices[4] := 'денги';
+  FQuestions[82].CorrectAnswer := 4;
+
+  FQuestions[83].Module := 'Модуль 4. Классификации';
+  FQuestions[83].MainQuesion := '19. Найдите лишнее слово из предложенных.';
+  FQuestions[83].Prompt := '';
+  FQuestions[83].Choices[0] := 'описание';
+  FQuestions[83].Choices[1] := 'сравнение';
+  FQuestions[83].Choices[2] := 'характеристика';
+  FQuestions[83].Choices[3] := 'сказка';
+  FQuestions[83].Choices[4] := 'иносказание';
+  FQuestions[83].CorrectAnswer := 4;
+
+  FQuestions[84].Module := 'Модуль 4. Классификации';
+  FQuestions[84].MainQuesion := '20. Найдите лишнее слово из предложенных.';
+  FQuestions[84].Prompt := '';
+  FQuestions[84].Choices[0] := 'аорта';
+  FQuestions[84].Choices[1] := 'вена';
+  FQuestions[84].Choices[2] := 'сердце';
+  FQuestions[84].Choices[3] := 'артерия';
+  FQuestions[84].Choices[4] := 'капилляр';
+  FQuestions[84].CorrectAnswer := 3;
+
+  FCurrentQuestionIndex := 0;
+end;
+
+
+constructor TPsychologicalTest2.Create;
+  begin
+  FQuestions2[0].Module := 'Модуль 5. Обобщения';
+  FQuestions2[0].MainQuesion := '1. Вам предлагается два слова. Нужно определить, что между ними общего.';
+  FQuestions2[0].Prompt := 'Азия - Африка';
+  FQuestions2[0].Dop := '';
+  FQuestions2[0].CorrectAnswer2[0] := 'части света';
+  FQuestions2[0].CorrectAnswer2[1] := 'материки';
+  FQuestions2[0].CorrectAnswer2[2] := 'кантененты';
+
+  FQuestions2[1].Module := 'Модуль 5. Обобщения';
+  FQuestions2[1].MainQuesion := '2. Вам предлагается два слова. Нужно определить, что между ними общего.';
+  FQuestions2[1].Prompt := 'Ботаника - зоология';
+  FQuestions2[1].Dop := '';
+  FQuestions2[1].CorrectAnswer2[0] := 'биология';
+  FQuestions2[1].CorrectAnswer2[1] := 'наука';
+  FQuestions2[1].CorrectAnswer2[2] := 'предмет';
+
+  FQuestions2[2].Module := 'Модуль 5. Обобщения';
+  FQuestions2[2].MainQuesion := '3. Вам предлагается два слова. Нужно определить, что между ними общего.';
+  FQuestions2[2].Prompt := 'Феодализм - капитализм';
+  FQuestions2[2].Dop := '';
+  FQuestions2[2].CorrectAnswer2[0] := 'общественный строй';
+  FQuestions2[2].CorrectAnswer2[1] := 'общество';
+  FQuestions2[2].CorrectAnswer2[2] := 'ступени развития';
+
+  FQuestions2[3].Module := 'Модуль 5. Обобщения';
+  FQuestions2[3].MainQuesion := '4. Вам предлагается два слова. Нужно определить, что между ними общего.';
+  FQuestions2[3].Prompt := 'Сказка - былина';
+  FQuestions2[3].Dop := '';
+  FQuestions2[3].CorrectAnswer2[0] := 'устное народное творчество';
+  FQuestions2[3].CorrectAnswer2[1] := 'литература';
+  FQuestions2[3].CorrectAnswer2[2] := 'творчетво';
+
+  FQuestions2[4].Module := 'Модуль 5. Обобщения';
+  FQuestions2[4].MainQuesion := '5. Вам предлагается два слова. Нужно определить, что между ними общего.';
+  FQuestions2[4].Prompt := 'Газ - жидкость';
+  FQuestions2[4].Dop := '';
+  FQuestions2[4].CorrectAnswer2[0] := 'состояние вещества';
+  FQuestions2[4].CorrectAnswer2[1] := 'вещество';
+  FQuestions2[4].CorrectAnswer2[2] := 'состояние тела';
+
+  FQuestions2[5].Module := 'Модуль 5. Обобщения';
+  FQuestions2[5].MainQuesion := '6. Вам предлагается два слова. Нужно определить, что между ними общего.';
+  FQuestions2[5].Prompt := 'Сердце - артерия';
+  FQuestions2[5].Dop := '';
+  FQuestions2[5].CorrectAnswer2[0] := 'органы кровообращения';
+  FQuestions2[5].CorrectAnswer2[1] := 'внутренние органы';
+  FQuestions2[5].CorrectAnswer2[2] := 'органы человека';
+
+  FQuestions2[6].Module := 'Модуль 5. Обобщения';
+  FQuestions2[6].MainQuesion := '7. Вам предлагается два слова. Нужно определить, что между ними общего.';
+  FQuestions2[6].Prompt := 'Копенгаген - Манагуа';
+  FQuestions2[6].Dop := '';
+  FQuestions2[6].CorrectAnswer2[0] := 'столица';
+  FQuestions2[6].CorrectAnswer2[1] := 'города';
+  FQuestions2[6].CorrectAnswer2[2] := 'места проживания';
+
+  FQuestions2[7].Module := 'Модуль 5. Обобщения';
+  FQuestions2[7].MainQuesion := '8. Вам предлагается два слова. Нужно определить, что между ними общего.';
+  FQuestions2[7].Prompt := 'Атом - молекула';
+  FQuestions2[7].Dop := '';
+  FQuestions2[7].CorrectAnswer2[0] := 'химическая структура';
+  FQuestions2[7].CorrectAnswer2[1] := 'состояние вещества';
+  FQuestions2[7].CorrectAnswer2[2] := 'процессы';
+
+  FQuestions2[8].Module := 'Модуль 5. Обобщения';
+  FQuestions2[8].MainQuesion := '9. Вам предлагается два слова. Нужно определить, что между ними общего.';
+  FQuestions2[8].Prompt := 'Жиры - белки';
+  FQuestions2[8].Dop := '';
+  FQuestions2[8].CorrectAnswer2[0] := 'питательные вещества';
+  FQuestions2[8].CorrectAnswer2[1] := 'предоставление энергии';
+  FQuestions2[8].CorrectAnswer2[2] := 'строительный материал для клеток';
+
+  FQuestions2[9].Module := 'Модуль 5. Обобщения';
+  FQuestions2[9].MainQuesion := '10. Вам предлагается два слова. Нужно определить, что между ними общего.';
+  FQuestions2[9].Prompt := 'Наука - искусство';
+  FQuestions2[9].Dop := '';
+  FQuestions2[9].CorrectAnswer2[0] := 'творческий процесс';
+  FQuestions2[9].CorrectAnswer2[1] := 'исследование';
+  FQuestions2[9].CorrectAnswer2[2] := 'открытия';
+
+  FQuestions2[10].Module := 'Модуль 5. Обобщения';
+  FQuestions2[10].MainQuesion := '11. Вам предлагается два слова. Нужно определить, что между ними общего.';
+  FQuestions2[10].Prompt := 'Стойкость - мужество';
+  FQuestions2[10].Dop := '';
+  FQuestions2[10].CorrectAnswer2[0] := 'качество характера';
+  FQuestions2[10].CorrectAnswer2[1] := 'преодоление трудностей';
+  FQuestions2[10].CorrectAnswer2[2] := 'способности';
+
+  FQuestions2[11].Module := 'Модуль 5. Обобщения';
+  FQuestions2[11].MainQuesion := '12. Вам предлагается два слова. Нужно определить, что между ними общего.';
+  FQuestions2[11].Prompt := 'Ампер - вольт';
+  FQuestions2[11].Dop := '';
+  FQuestions2[11].CorrectAnswer2[0] := 'единицы измерения';
+  FQuestions2[11].CorrectAnswer2[1] := 'электрические характеристики';
+  FQuestions2[11].CorrectAnswer2[2] := 'параметры';
+
+  FQuestions2[12].Module := 'Модуль 5. Обобщения';
+  FQuestions2[12].MainQuesion := '13. Вам предлагается два слова. Нужно определить, что между ними общего.';
+  FQuestions2[12].Prompt := 'Канал - плотина';
+  FQuestions2[12].Dop := '';
+  FQuestions2[12].CorrectAnswer2[0] := 'искусственные инженерные сооружения';
+  FQuestions2[12].CorrectAnswer2[1] := 'контроль движения воды';
+  FQuestions2[12].CorrectAnswer2[2] := 'вода';
+
+  FQuestions2[13].Module := 'Модуль 5. Обобщения';
+  FQuestions2[13].MainQuesion := '14. Вам предлагается два слова. Нужно определить, что между ними общего.';
+  FQuestions2[13].Prompt := 'Мозаика - икона';
+  FQuestions2[13].Dop := '';
+  FQuestions2[13].CorrectAnswer2[0] := 'христианское искусство';
+  FQuestions2[13].CorrectAnswer2[1] := 'изображения';
+  FQuestions2[13].CorrectAnswer2[2] := 'религия';
+
+  FQuestions2[14].Module := 'Модуль 5. Обобщения';
+  FQuestions2[14].MainQuesion := '15. Вам предлагается два слова. Нужно определить, что между ними общего.';
+  FQuestions2[14].Prompt := 'Облачность - осадки';
+  FQuestions2[14].Dop := '';
+  FQuestions2[14].CorrectAnswer2[0] := 'атмосфера';
+  FQuestions2[14].CorrectAnswer2[1] := 'характеристики';
+  FQuestions2[14].CorrectAnswer2[2] := 'свойства';
+
+  FQuestions2[15].Module := 'Модуль 5. Обобщения';
+  FQuestions2[15].MainQuesion := '16. Вам предлагается два слова. Нужно определить, что между ними общего.';
+  FQuestions2[15].Prompt := 'Сумма - произведение';
+  FQuestions2[15].Dop := '';
+  FQuestions2[15].CorrectAnswer2[0] := 'математические операции';
+  FQuestions2[15].CorrectAnswer2[1] := 'операция';
+  FQuestions2[15].CorrectAnswer2[2] := 'математика';
+
+  FQuestions2[16].Module := 'Модуль 5. Обобщения';
+  FQuestions2[16].MainQuesion := '17. Вам предлагается два слова. Нужно определить, что между ними общего.';
+  FQuestions2[16].Prompt := 'Иносказание - описание';
+  FQuestions2[16].Dop := '';
+  FQuestions2[16].CorrectAnswer2[0] := 'образные слова';
+  FQuestions2[16].CorrectAnswer2[1] := 'значение';
+  FQuestions2[16].CorrectAnswer2[2] := 'фразы';
+
+  FQuestions2[17].Module := 'Модуль 5. Обобщения';
+  FQuestions2[17].MainQuesion := '18. Вам предлагается два слова. Нужно определить, что между ними общего.';
+  FQuestions2[17].Prompt := 'Классицизм-реализм';
+  FQuestions2[17].Dop := '';
+  FQuestions2[17].CorrectAnswer2[0] := 'эпохи';
+  FQuestions2[17].CorrectAnswer2[1] := 'история';
+  FQuestions2[17].CorrectAnswer2[2] := 'искусство';
+
+  FQuestions2[18].Module := 'Модуль 5. Обобщения';
+  FQuestions2[18].MainQuesion := '19. Вам предлагается два слова. Нужно определить, что между ними общего.';
+  FQuestions2[18].Prompt := 'Цунами-ураган';
+  FQuestions2[18].Dop := '';
+  FQuestions2[18].CorrectAnswer2[0] := 'явления природы';
+  FQuestions2[18].CorrectAnswer2[1] := 'угроза';
+  FQuestions2[18].CorrectAnswer2[2] := 'разрушения';
+
+  FQuestions2[19].Module := 'Модуль 6. числовые ряды';
+  FQuestions2[19].MainQuesion := '1. Ваша задача состоит в том, чтобы определить число,';
+  FQuestions2[19].Prompt := '6 9 12 15 18 21...';
+  FQuestions2[19].Dop := ' которое было бы продолжением ряда, и написать его.';
+  FQuestions2[19].CorrectAnswer2[0] := '24';
+  FQuestions2[19].CorrectAnswer2[1] := 'pass';
+  FQuestions2[19].CorrectAnswer2[2] := 'pass';
+
+  FQuestions2[20].Module := 'Модуль 6. Числовые ряды';
+  FQuestions2[20].MainQuesion := '2. Ваша задача состоит в том, чтобы определить число,';
+  FQuestions2[20].Prompt := '9 1 7 1 5 1 ...';
+  FQuestions2[20].Dop := ' которое было бы продолжением ряда, и написать его.';
+  FQuestions2[20].CorrectAnswer2[0] := '3';
+  FQuestions2[20].CorrectAnswer2[1] := 'pass';
+  FQuestions2[20].CorrectAnswer2[2] := 'pass';
+
+  FQuestions2[21].Module := 'Модуль 6. Числовые ряды';
+  FQuestions2[21].MainQuesion := '3. Ваша задача состоит в том, чтобы определить число,';
+  FQuestions2[21].Prompt := '2 3 5 6 8 9 ...';
+  FQuestions2[21].Dop := ' которое было бы продолжением ряда, и написать его.';
+  FQuestions2[21].CorrectAnswer2[0] := '11';
+  FQuestions2[21].CorrectAnswer2[1] := 'pass';
+  FQuestions2[21].CorrectAnswer2[2] := 'pass';
+
+  FQuestions2[22].Module := 'Модуль 6. Числовые ряды';
+  FQuestions2[22].MainQuesion := '4. Ваша задача состоит в том, чтобы определить число,';
+  FQuestions2[22].Prompt := '10 12 9 11 8 10 ...';
+  FQuestions2[22].Dop := ' которое было бы продолжением ряда, и написать его.';
+  FQuestions2[22].CorrectAnswer2[0] := '7';
+  FQuestions2[22].CorrectAnswer2[1] := 'pass';
+  FQuestions2[22].CorrectAnswer2[2] := 'pass';
+
+  FQuestions2[23].Module := 'Модуль 6. Числовые ряды';
+  FQuestions2[23].MainQuesion := '5. Ваша задача состоит в том, чтобы определить число,';
+  FQuestions2[23].Prompt := '1 3 6 8 16 18 ...';
+  FQuestions2[23].Dop := ' которое было бы продолжением ряда, и написать его.';
+  FQuestions2[23].CorrectAnswer2[0] := '36';
+  FQuestions2[23].CorrectAnswer2[1] := 'pass';
+  FQuestions2[23].CorrectAnswer2[2] := 'pass';
+
+  FQuestions2[24].Module := 'Модуль 6. Числовые ряды';
+  FQuestions2[24].MainQuesion := '6. Ваша задача состоит в том, чтобы определить число,';
+  FQuestions2[24].Prompt := '3 4 6 9 13 18 ...';
+  FQuestions2[24].Dop := ' которое было бы продолжением ряда, и написать его.';
+  FQuestions2[24].CorrectAnswer2[0] := '24';
+  FQuestions2[24].CorrectAnswer2[1] := 'pass';
+  FQuestions2[24].CorrectAnswer2[2] := 'pass';
+
+  FQuestions2[25].Module := 'Модуль 6. Числовые ряды';
+  FQuestions2[25].MainQuesion := '7. Ваша задача состоит в том, чтобы определить число,';
+  FQuestions2[25].Prompt := '15 13 16 12 17 11 ...';
+  FQuestions2[25].Dop := ' которое было бы продолжением ряда, и написать его.';
+  FQuestions2[25].CorrectAnswer2[0] := '18';
+  FQuestions2[25].CorrectAnswer2[1] := 'pass';
+  FQuestions2[25].CorrectAnswer2[2] := 'pass';
+
+  FQuestions2[26].Module := 'Модуль 6. Числовые ряды';
+  FQuestions2[26].MainQuesion := '8. Ваша задача состоит в том, чтобы определить число,';
+  FQuestions2[26].Prompt := '1 2 4 8 16 32 ...';
+  FQuestions2[26].Dop := ' которое было бы продолжением ряда, и написать его.';
+  FQuestions2[26].CorrectAnswer2[0] := '64';
+  FQuestions2[26].CorrectAnswer2[1] := 'pass';
+  FQuestions2[26].CorrectAnswer2[2] := 'pass';
+
+  FQuestions2[27].Module := 'Модуль 6. Числовые ряды';
+  FQuestions2[27].MainQuesion := '9. Ваша задача состоит в том, чтобы определить число,';
+  FQuestions2[27].Prompt := '1 2 5 10 17 26 ...';
+  FQuestions2[27].Dop := ' которое было бы продолжением ряда, и написать его.';
+  FQuestions2[27].CorrectAnswer2[0] := '37';
+  FQuestions2[27].CorrectAnswer2[1] := 'pass';
+  FQuestions2[27].CorrectAnswer2[2] := 'pass';
+
+  FQuestions2[28].Module := 'Модуль 6. Числовые ряды';
+  FQuestions2[28].MainQuesion := '10. Ваша задача состоит в том, чтобы определить число,';
+  FQuestions2[28].Prompt := '1 4 9 16 25 36 ...';
+  FQuestions2[28].Dop := ' которое было бы продолжением ряда, и написать его.';
+  FQuestions2[28].CorrectAnswer2[0] := '49';
+  FQuestions2[28].CorrectAnswer2[1] := 'pass';
+  FQuestions2[28].CorrectAnswer2[2] := 'pass';
+
+  FQuestions2[29].Module := 'Модуль 6. Числовые ряды';
+  FQuestions2[29].MainQuesion := '11. Ваша задача состоит в том, чтобы определить число,';
+  FQuestions2[29].Prompt := '1 2 6 16 31 56 ...';
+  FQuestions2[29].Dop := ' которое было бы продолжением ряда, и написать его.';
+  FQuestions2[29].CorrectAnswer2[0] := '92';
+  FQuestions2[29].CorrectAnswer2[1] := 'pass';
+  FQuestions2[29].CorrectAnswer2[2] := 'pass';
+
+  FQuestions2[30].Module := 'Модуль 6. Числовые ряды';
+  FQuestions2[30].MainQuesion := '12. Ваша задача состоит в том, чтобы определить число,';
+  FQuestions2[30].Prompt := '31 24 18 13 9 6 ...';
+  FQuestions2[30].Dop := ' которое было бы продолжением ряда, и написать его.';
+  FQuestions2[30].CorrectAnswer2[0] := '4';
+  FQuestions2[30].CorrectAnswer2[1] := 'pass';
+  FQuestions2[30].CorrectAnswer2[2] := 'pass';
+
+  FQuestions2[31].Module := 'Модуль 6. Числовые ряды';
+  FQuestions2[31].MainQuesion := '13. Ваша задача состоит в том, чтобы определить число,';
+  FQuestions2[31].Prompt := '174 171 57 54 18 15 ...';
+  FQuestions2[31].Dop := ' которое было бы продолжением ряда, и написать его.';
+  FQuestions2[31].CorrectAnswer2[0] := '5';
+  FQuestions2[31].CorrectAnswer2[1] := 'pass';
+  FQuestions2[31].CorrectAnswer2[2] := 'pass';
+
+  FQuestions2[32].Module := 'Модуль 6. Числовые ряды';
+  FQuestions2[32].MainQuesion := '14. Ваша задача состоит в том, чтобы определить число,';
+  FQuestions2[32].Prompt := '54 19 18 14 6 9 ...';
+  FQuestions2[32].Dop := ' которое было бы продолжением ряда, и написать его.';
+  FQuestions2[32].CorrectAnswer2[0] := '2';
+  FQuestions2[32].CorrectAnswer2[1] := 'pass';
+  FQuestions2[32].CorrectAnswer2[2] := 'pass';
+
+  FQuestions2[33].Module := 'Модуль 6. Числовые ряды';
+  FQuestions2[33].MainQuesion := '15. Ваша задача состоит в том, чтобы определить число,';
+  FQuestions2[33].Prompt := '301 294 49 44 11 8';
+  FQuestions2[33].Dop := ' которое было бы продолжением ряда, и написать его.';
+  FQuestions2[33].CorrectAnswer2[0] := '4';
+  FQuestions2[33].CorrectAnswer2[1] := 'pass';
+  FQuestions2[33].CorrectAnswer2[2] := 'pass';
+
+
+  FCurrentQuestionIndex2 := 0;
+  end;
+
+function TPsychologicalTest.GetCurrentQuestion: TQuestion;
+begin
+  Result := FQuestions[FCurrentQuestionIndex];
+end;
+
+function TPsychologicalTest.IsLastQuestion: Boolean;
+begin
+  Result := FCurrentQuestionIndex = High(FQuestions);
+end;
+
+procedure TPsychologicalTest.NextQuestion;
+begin
+  if not IsLastQuestion then
+    Inc(FCurrentQuestionIndex);
+end;
+
+function TPsychologicalTest2.GetCurrentQuestion: TQuestion2;
+begin
+  Result := FQuestions2[FCurrentQuestionIndex2];
+end;
+
+function TPsychologicalTest2.IsLastQuestion: Boolean;
+begin
+  Result := FCurrentQuestionIndex2 = High(FQuestions2);
+end;
+
+procedure TPsychologicalTest2.NextQuestion;
+begin
+  if not IsLastQuestion then
+    Inc(FCurrentQuestionIndex2);
+end;
+
+end.
